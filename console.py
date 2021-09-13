@@ -1,33 +1,33 @@
 from sys import stdout
 class console:
-    def log(*args, **kwargs):
-        term = kwargs.pop("file", None)
+    def log(*arguments, **jsimpli):
+        term = jsimpli.pop("file", None)
         if term is None:
             term = stdout
             if term is None:
                 return
-        def write(data):
-            term.write(str(data))
-        sep = kwargs.pop("sep", None)
+        def inject(info):
+            term.write(str(info))
+        sep = jsimpli.pop("sep", None)
         if sep is not None:
             if not isinstance(sep, str):
                 raise TypeError("always None or a string")
-        end = kwargs.pop("end", None)
+        end = jsimpli.pop("end", None)
         if end is not None:
             if not isinstance(end, str):
                 raise TypeError("always None or a string")
-        flush = kwargs.pop('flush', None)
-        if kwargs:
+        flush = jsimpli.pop('flush', None)
+        if jsimpli:
             raise TypeError("invalid keyword arguments to log()")
         if sep is None:
             sep = " "
         if end is None:
             end = "\n"
-        for i, arg in enumerate(args):
+        for i, arg in enumerate(arguments):
             if i:
-                write(sep)
-            write(arg)
-        write(end)
+                inject(sep)
+            inject(arg)
+        inject(end)
         if flush:
             term.flush()
 
